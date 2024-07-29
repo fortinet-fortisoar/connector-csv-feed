@@ -1,0 +1,210 @@
+{
+  "name": "csv-feed",
+  "label": "CSV Feed",
+  "version": "1.0.0",
+  "description": "CSV Feed can be used to fetch Threat Intel Feeds from a csv file from any Publicly hosted url or from FortiSOAR Attachment/File. <br/><br/>This connector has a dependency on the <a href=\\\"/content-hub/all-content/?contentType=solutionpack&amp;tag=ThreatIntelManagement\\\" target=\\\"_blank\\\" rel=\\\"noopener\\\">Threat Intel Management Solution Pack</a>. Install the Solution Pack before enabling ingestion of Threat Feeds from this source",
+  "publisher": "Fortinet",
+  "cs_approved": true,
+  "cs_compatible": true,
+  "category": "Threat Intelligence",
+  "icon_small_name": "small.png",
+  "icon_large_name": "large.png",
+  "contributor": "",
+  "help_online": "",
+  "ingestion_supported": true,
+  "ingestion_modes": [
+    "scheduled"
+  ],
+  "tags": [
+    "ThreatIntel"
+  ],
+  "ingestion_preferences": {
+    "modules": [
+      "threat_intel_feeds",
+      "indicators"
+    ]
+  },
+  "configuration": {
+    "fields": [
+      {
+        "title": "Input Type",
+        "type": "select",
+        "name": "input",
+        "required": true,
+        "visible": true,
+        "editable": true,
+        "options": [
+          "Server URL",
+          "Attachment IRI",
+          "File IRI"
+        ],
+        "onchange": {
+          "Server URL": [
+            {
+              "title": "Server URL",
+              "type": "text",
+              "name": "server_url",
+              "required": true,
+              "editable": true,
+              "visible": true,
+              "tooltip": "IP address or hostname of the server to which you will connect and collect Threat Intel Feeds",
+              "description": "IP address or hostname of the server to which you will connect and collect Threat Intel Feeds"
+            }
+          ],
+          "Attachment IRI": [
+          ],
+          "File IRI": [
+          ]
+        }
+      },
+      {
+        "title": "Verify SSL",
+        "name": "verify_ssl",
+        "type": "checkbox",
+        "required": false,
+        "editable": true,
+        "visible": true,
+        "value": true,
+        "tooltip": "Specifies whether the SSL certificate for the server is to be verified or not.By default, this option is set as True.",
+        "description": "Specifies whether the SSL certificate for the server is to be verified or not.By default, this option is set as True."
+      }
+    ]
+  },
+  "operations": [
+    {
+      "operation": "get_feeds_from_url",
+      "title": "Get Feeds from URL",
+      "description": "Retrieves the Threat intel Feeds found on the config Server URL based on the column names and other parameters provided",
+      "category": "investigation",
+      "annotation": "get_feeds_from_url",
+      "enabled": true,
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Column Name",
+          "required": true,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "col_name",
+          "description": "Specify the comma separated value of the Column names that you want to retrieve",
+          "tooltip": "Specify the comma separated value of the Column names that you want to retrieve"
+        },
+        {
+          "title": "Delimiter",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "delimiter",
+          "description": "Specify the Single byte character to use as separator in the csv file",
+          "tooltip": "Specify the Single byte character to use as separator in the csv file"
+        },
+        {
+          "title": "Limit",
+          "description": "(Optional) Specify the maximum number of Feeds to fetch, per page. By default, this option is set as 100",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "type": "integer",
+          "name": "n_rows",
+          "value": 100,
+          "tooltip": "(Optional) Specify the maximum number of Feeds to fetch, per page. By default, this option is set as 100"
+        }
+      ]
+    },
+    {
+      "operation": "get_feeds_from_attachment",
+      "title": "Get Feeds from Attachment",
+      "description": "Retrieves the Threat intel Feeds found on the FSR Attachment/File based on the column names and other parameters provided",
+      "category": "investigation",
+      "annotation": "get_feeds_from_attachment",
+      "enabled": true,
+      "output_schema": {},
+      "parameters": [
+        {
+          "title": "Input Type",
+          "type": "select",
+          "name": "input",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "options": [
+            "Attachment IRI",
+            "File IRI"
+          ]
+        },
+        {
+          "title": "Reference ID",
+          "type": "text",
+          "name": "value",
+          "required": true,
+          "visible": true,
+          "editable": true,
+          "description": "Specify the Reference IRI of the FSR Attachment/File",
+          "tooltip": "Specify the Reference IRI of the FSR Attachment/File"
+        },
+        {
+          "title": "Process Response As",
+          "name": "process_response_as",
+          "visible": true,
+          "required": true,
+          "editable": true,
+          "type": "select",
+          "options": [
+            "Create as Feed Records in FortiSOAR",
+            "Return as a JSON"
+          ],
+          "value": "Return as a JSON",
+          "tooltip": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option).",
+          "description": "Select the method of returning the Feed Data information. You can choose between the data being created as \"Feed records\" in FortiSOAR (the Create as Feed Records in FortiSOAR option) or data being returned in the JSON format (the Return as a JSON option). \nIf you choose the 'Create as Feed Records in FortiSOAR' option, then in the Record Creation Playbook IRI field, specify the IRI of the playbook that creates feed records in FortiSOAR.",
+          "onchange": {
+            "Create as Feed Records in FortiSOAR": [
+              {
+                "title": "Record Creation Playbook IRI",
+                "description": "Specify the IRI of the playbook that creates feed records in FortiSOAR.",
+                "type": "text",
+                "name": "create_pb_id",
+                "required": true,
+                "editable": true,
+                "visible": true
+              }
+            ]
+          }
+        },
+        {
+          "title": "Column Name",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "name": "col_name",
+          "description": "Specify the comma separated value of the Column names that you want to retrieve. If left blank, All columns will be returned",
+          "tooltip": "Specify the comma separated value of the Column names that you want to retrieve. If left blank, All columns will be returned"
+        },
+        {
+          "title": "Delimiter",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "type": "text",
+          "value": ",",
+          "name": "delimiter",
+          "description": "Specify the Single byte character to use as separator in the csv file",
+          "tooltip": "Specify the Single byte character to use as separator in the csv file"
+        },
+        {
+          "title": "Limit",
+          "description": "(Optional) Specify the maximum number of rows to fetch, per page",
+          "required": false,
+          "editable": true,
+          "visible": true,
+          "type": "integer",
+          "name": "n_rows",
+          "value": 100,
+          "tooltip": "(Optional) Specify the maximum number of rows to fetch, per page"
+        }
+      ]
+    }
+  ]
+}
