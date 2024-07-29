@@ -159,7 +159,7 @@
           "aliasName": null,
           "tag": null,
           "description": "Creates Threat Intel Feed from a list of Feeds retrieved from CSV attachment",
-          "isActive": true,
+          "isActive": false,
           "debug": false,
           "singleRecordExecution": false,
           "remoteExecutableFlag": false,

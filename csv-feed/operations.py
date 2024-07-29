@@ -123,7 +123,6 @@ def get_feeds_from_attachment(config: dict, params: dict, **kwargs):
             if process_response_as == "Return as JSON":
                 return list_feeds
             else:
-                logger.info(f"{list_feeds}")
                 trigger_ingest_playbook(list_feeds, params.get("create_pb_id"), parent_env=kwargs.get('env', {}),
                                         batch_size=2000)
                 return {"message": "Successfully triggered playbooks to create feed records"}
@@ -187,9 +186,7 @@ def _process_csv_from_attachment_file(config: dict, params: dict):
     if expected_columns:
         df = pl.read_csv(file_path, separator=delimiter, n_rows=n_rows, columns=expected_columns,
                          has_header=has_headers)
-        logger.info(f"Inside expected_columns")
     else:
-        logger.info(f"Inside Not expected_columns")
         df = pl.read_csv(file_path, separator=delimiter, n_rows=n_rows, has_header=has_headers)
 
     return _format_result(df)

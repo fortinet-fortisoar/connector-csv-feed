@@ -30,13 +30,14 @@
         "title": "Input Type",
         "type": "select",
         "name": "input",
+        "description": "Specify the type of input you want to take to ingest CSV. You can choose from Server URL,Attachment IRI,File IRI",
+        "tooltip": "Specify the type of input you want to take to ingest CSV. You can choose from Server URL,Attachment IRI,File IRI",
         "required": true,
         "visible": true,
         "editable": true,
         "options": [
           "Server URL",
-          "Attachment IRI",
-          "File IRI"
+          "Attachment IRI or File IRI"
         ],
         "onchange": {
           "Server URL": [
@@ -51,9 +52,7 @@
               "description": "IP address or hostname of the server to which you will connect and collect Threat Intel Feeds"
             }
           ],
-          "Attachment IRI": [
-          ],
-          "File IRI": [
+          "Attachment IRI or File IRI": [
           ]
         }
       },
@@ -126,6 +125,8 @@
           "title": "Input Type",
           "type": "select",
           "name": "input",
+          "description": "Specify the type of input you want to take to ingest CSV. You can choose from Attachment IRI,File IRI",
+          "tooltip": "Specify the type of input you want to take to ingest CSV. You can choose from Attachment IRI,File IRI",
           "required": true,
           "visible": true,
           "editable": true,
